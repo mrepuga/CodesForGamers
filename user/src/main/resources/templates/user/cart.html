@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - CodesForGamers</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+
+   .img-with-border {
+    border: 2px solid black;/* You can adjust the border width and color */
+    border-radius: 10px;
+}
+
+  .text{
+    font-size: 1.2em;
+    color: white;
+    font-weight: bold;
+  }
+
+  body{
+        background-color: #636f82;
+    }
+  h2 {
+        text-align: left;
+        color: white;
+    }
+
+  .tableBody{
+    background-color: #031154;
+
+  }
+  .custom-blue-button {
+   background-color: #031154;
+   color: #fff;
+   font-weight: bold;
+  }
+
+  .custom-green-button {
+  background-color: #2ecc71;
+  color: #fff;
+  font-weight: bold;
+  }
+
+
+
+
+</style>
+
+<body>
+
+<div th:include="fragments/header.html"></div>
+
+<div class="container mt-5">
+  <h2>Your Shopping Cart</h2>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col" class="text">Game</th>
+      <th scope="col" class="text">Price</th>
+      <th scope="col" class="text">Platform</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody class="tableBody">
+    <!-- Check if there are items in the cart -->
+    <th:block th:if="${not #lists.isEmpty(mergedCartItems)}">
+      <!-- Loop through merged cart items and display information -->
+      <tr th:each="mergedCartItem : ${mergedCartItems}">
+        <!-- Display information from MergedCartItem directly -->
+        <td>
+          <!-- Wrap the image in an anchor tag with the game URL -->
+          <a th:href="@{'/game/' + ${mergedCartItem.gameDetails['id']} }">
+            <span th:text="${mergedCartItem.gameDetails['name']}" class="text"></span>
+            <br>
+            <br>
+            <th:block th:if="${mergedCartItem.gameDetails['imagePath'] != null}">
+              <!-- Use th:src to directly embed the image in the HTML -->
+              <img th:src="@{'/images/' + ${mergedCartItem.gameDetails['imagePath']} }" alt="Game Image" class="img-with-border"/>
+            </th:block>
+            <th:block th:unless="${mergedCartItem.gameDetails['imagePath'] != null}">
+              <img th:src="@{/images/placeholder.jpg}" alt="No Image" class="img-with-border"/>
+            </th:block>
+          </a>
+        </td>
+
+        <td th:text="'€ ' + ${mergedCartItem.gameDetails['price']}" class="text"></td>
+        <td th:text="${mergedCartItem.cartItem.platform}" class="text"></td>
+        <!-- Add more fields as needed -->
+
+        <td>
+          <form th:action="@{'/cart/' + ${mergedCartItem.cartItem.id}}" th:method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit" class="btn btn-danger">
+              ❌
+            </button>
+          </form>
+        </td>
+
+
+
+      </tr>
+    </th:block>
+    <!-- Display a message if the cart is empty -->
+
+    </tbody>
+  </table>
+  <div th:if="${#lists.isEmpty(mergedCartItems)}">
+    <p class="text">Your cart is empty.</p>
+  </div>
+
+  <br>
+
+  <div th:if="${not #lists.isEmpty(mergedCartItems)}">
+    <p class="text">Total Price: €<span th:text="${totalPrice}"></span></p>
+    <br>
+    <form method="post" th:action="@{/payment/create}" >
+      <input type="hidden" name="totalPrice" th:value="${totalPrice}">
+      <button type="submit" class="btn custom-green-button">Proceed to PayPal 💰</button>
+    </form>
+  </div>
+
+
+  <br>
+  <!-- Add your checkout or continue shopping button -->
+  <a href="/home" class="btn custom-blue-button">Continue Shopping</a>
+  <br>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-P1buNtgHWNqPvAjbLwC7fUIFpfdaB/4zDEJuTbQCFxTg4XwnBG6G6IA3FjXM+F9a"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

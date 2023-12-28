@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodesForGamers</title>
+
+
+
+  <style>
+    header {
+    background-color: #636f82; /* Set your desired background color */
+    padding : 10px;
+  }
+
+   header nav.navbar {
+    background-color: #031154 !important; /* Use !important to override existing styles */
+    border-radius: 20px;
+
+  }
+  header nav.navbar a.nav-link {
+    color: white !important; /* Set the text color to white */
+  }
+  header .navbar-brand {
+    color: white !important; /* Use !important to override existing styles */
+  }
+
+
+  </style>
+
+</head>
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/home">CodesForGamers</a>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li th:if="${session.user == null}" class="nav-item">
+          <a th:href="@{/user/register}" class="nav-link">Register</a>
+        </li>
+        <li th:if="${session.user == null}" class="nav-item">
+          <a th:href="@{/user/login}" class="nav-link">Login</a>
+        </li>
+        <li th:if="${session.user != null}" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Welcome, <span th:text="${session.user.fullName}"></span>!
+          </a>
+          <div class="dropdown-menu" aria-labelledby="userDropdown">
+            <a th:href="@{/user/profile}" class="dropdown-item">Profile</a>
+            <div class="dropdown-divider"></div>
+
+            <th:block th:if="${session.admin != null}">
+              <a th:href="@{/admin/dashboard}" class="dropdown-item">Admin Dashboard</a>
+              <div class="dropdown-divider"></div>
+            </th:block>
+
+            <th:block th:if="${session.admin == null}">
+              <a th:href="@{/cart}" class="dropdown-item">Shopping Cart</a>
+              <div class="dropdown-divider"></div>
+            </th:block>
+
+            <th:block th:if="${session.admin == null}">
+              <a th:href="@{/orderCart/show}" class="dropdown-item">View Orders</a>
+              <div class="dropdown-divider"></div>
+            </th:block>
+            <th:block th:if="${session.admin == null}">
+              <a th:href="@{/alert/showAlerts}" class="dropdown-item">Alerts</a>
+              <div class="dropdown-divider"></div>
+            </th:block>
+
+            <a th:href="@{/user/logout}" class="dropdown-item">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

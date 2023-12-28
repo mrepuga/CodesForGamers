@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User profile - CodesForGamers</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <style>
+    #editForm {
+        display: none;
+    }
+
+   body {
+      font-family: Arial, sans-serif;
+      background-color: #636f82;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+  .info {
+    text-align: center;
+    max-width: 600px; /* Adjust the maximum width as needed */
+    margin: 0 auto; /* This centers the element horizontally within its container */
+    font-family: Arial, sans-serif; /* Apply font family to the info div */
+    color: white;
+    }
+
+  .error-message {
+  color: red;
+  font-weight: bold;
+  }
+
+  h2 {
+  text-align: center;
+  color: white;;
+  }
+
+
+    form {
+      max-width: 400px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #031154;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    @media screen and (max-width: 600px) {
+      form {
+        max-width: 100%;
+      }
+    }
+
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+<div th:include="fragments/header.html"></div>
+
+<h2>User Profile</h2>
+<!-- Display user information -->
+<div class="info">
+  <p>Full Name: <span th:text="${session.user.fullName}"></span></p>
+  <p>Email: <span th:text="${session.user.email}"></span></p>
+  <p>Phone Number: <span th:text="${session.user.phoneNumber}"></span></p>
+  <button id="editButton" onclick="toggleForm('editForm')">Edit Profile</button>
+  <p id="validationError" th:if="${error == 'validation'}" class="error-message">Invalid email.</p>
+  <br>
+  <br>
+  <button id="changePasswordButton" onclick="toggleForm('passwordForm')">Change Password</button>
+  <p id="passwordError" th:if="${error == 'passwordValidation'}" class="error-message">Invalid passwords.</p>
+</div>
+
+
+
+
+<form id="editForm" th:action="@{/user/profile}" method="post">
+  <label >Full Name:</label>
+  <input type="text" pattern="^[A-Za-z\s\.'\-]+$" title="Please enter a valid full name (Ex. Name Surname)" required id="fullName" name="fullName" th:value="${session.user.fullName}">
+  <br>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid email address (example@mail.com)" required th:value="${session.user.email}">
+  <br>
+  <label for="phoneNumber">Phone Number:</label>
+  <input type="text" pattern="\d+" id="phoneNumber" name="phoneNumber" th:value="${session.user.phoneNumber}">
+  <br>
+  <!-- Submit button for form submission -->
+  <button type="submit" name="action" value="updateProfile">Save Changes</button>
+</form>
+
+<form id="passwordForm" th:action="@{/user/profile}" th:object="${passwordForm}" method="post" class="form" style="display: none;">
+  <label for="currentPassword">Current Password:</label>
+  <input type="password" id="currentPassword" name="currentPassword" th:field="*{oldPassword}" required>
+  <br>
+  <label for="newPassword">New Password:</label>
+  <input type="password" id="newPassword" name="newPassword" th:field="*{newPassword}" required>
+  <br>
+  <label for="confirmPassword">Confirm New Password:</label>
+  <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmNewPassword}" required>
+  <br>
+  <button type="submit" name="action" value="updatePassword">Change Password</button>
+</form>
+
+<script>
+  function toggleForm(formId) {
+    var form = document.getElementById(formId);
+    form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
+  }
+</script>
+
+</body>
+</html>

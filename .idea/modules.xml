@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/codesforgamers-public.iml" filepath="$PROJECT_DIR$/.idea/codesforgamers-public.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gamecatalog/gamecatalog.iml" filepath="$PROJECT_DIR$/gamecatalog/gamecatalog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/notificationApp/notificationApp.iml" filepath="$PROJECT_DIR$/notificationApp/notificationApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/user.iml" filepath="$PROJECT_DIR$/user/user.iml" />
+    </modules>
+  </component>
+</project>

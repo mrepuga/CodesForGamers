@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Below 20 - CodesForGamers</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <style>
+    /* Add your custom styles for cards here */
+     .game-card {
+        border: 2px solid black;
+        border-radius: 20px;
+        padding: 10px;
+        margin: 10px;
+        display: inline-block;
+        vertical-align: top;
+
+    }
+
+    .game-card {
+    transform: scale(1);
+    transition: transform 0.3s ease;
+    background-color: #031154;
+    }
+
+    /* Add responsive styles */
+   @media (max-width: 350px) {
+        .game-card {
+            width: 100%; /* Make cards full width on smaller screens */
+
+        }
+        .game-card{
+        transform: scale(1);
+        }
+    }
+
+    .game-card:hover {
+    transform: scale(1.1); /* Adjust the hover scale factor as needed */
+  }
+
+    #content-container {
+        margin-left: 5%;
+        margin-right: 5%;
+
+    }
+
+
+    body {
+        background-color: #636f82;
+    }
+
+     input[type="text"] {
+        width: 75%; /* Set the desired width for the input */
+        padding: 10px; /* Add padding for better visual appearance */
+        border: 2px solid black;
+        border-radius: 20px; /* Set border-radius for rounded edges */
+        margin-right: 10px; /* Add some right margin for spacing */
+        background-color: #333333; /* Set background color */
+        color: #fff; /* Set text color */
+    }
+    input[type="text"]::placeholder {
+    color: white;
+    }
+
+    button.search-button {
+        padding: 10px 15px; /* Set padding for the button */
+        width: 15%;
+        border: 2px solid black; /* Set border color */
+        border-radius: 20px; /* Set border-radius for rounded edges */
+        background-color: #333333; /* Set background color */
+        color: #fff; /* Set text color */
+        cursor: pointer;
+    }
+     h1 {
+        text-align: center;
+        color: white
+    }
+
+    h2{
+    color: white
+    }
+
+     nav.games a {
+        color: white; /* Set the text color of anchor elements inside the nav to white */
+        font-size: 28px;
+    }
+    nav.games a:hover {
+        text-decoration: none; /* Remove underline on hover */
+    }
+
+     .details {
+      color: white;
+      font-weight: bold;
+      text-align: left;
+    }
+    .img-with-border {
+    border: 2px solid black;/* You can adjust the border width and color */
+    border-radius: 10px;
+}
+  .explore-link {
+        text-decoration: none;
+        color: #fff;
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    .explore-link-container {
+        background-color: #031154;
+        padding: 10px 20px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color 0.3s;
+    }
+
+  .explore-link:hover .explore-link-container {
+        background-color: #333333;
+    }
+
+    .explore-text {
+        font-size: 18px;
+    }
+
+    .emoji-icon {
+        font-size: 20px;
+    }
+
+
+    </style>
+</head>
+<body>
+
+
+<div th:include="fragments/header.html"></div>
+
+
+<div id="background">
+  <div id="content-container">
+    <br>
+    <h1>CodesForGamers</h1>
+    <br>
+    <br>
+    <form action="/search" method="get">
+      <input type="text" name="query" placeholder="Search...">
+      <button type="submit" class="search-button">Search</button>
+    </form>
+    <br>
+    <br>
+    <nav class="games">
+      <h2>Below 20€ Games</h2>
+      <th:block th:if="${#lists.isEmpty(under20Games)}">
+        <p class="details">Currently, there isn't any game under 20€.</p>
+        <a th:href="@{/home}" class="explore-link">
+          <div class="explore-link-container">
+            <span class="explore-text">Return home</span>
+            <span class="emoji-icon" role="img" aria-label="Left Arrow"> ⬅️</span>
+          </div>
+        </a>
+      </th:block>
+      <th:block th:unless="${#lists.isEmpty(under20Games)}">
+
+        <div th:each="game : ${under20Games}" class="game-card">
+          <a th:href="'/game/' + ${game.id}" th:text="${game.name}"></a>
+          <p th:text="${'Price: €' + game.price}" class="details"></p>
+          <th:block th:if="${game.imagePath != null}">
+            <img th:src="@{'/images/' + ${game.imagePath}}" alt="Game Image" class="img-with-border"/>
+          </th:block>
+          <th:block th:unless="${game.imagePath != null}">
+            <img th:src="@{/images/placeholder.jpg}" alt="No Image" class="img-with-border"/>
+          </th:block>
+          <!-- Add more details as needed -->
+        </div>
+      </th:block>
+    </nav>
+
+
+  </div>
+</div>
+
+</body>
+</html>

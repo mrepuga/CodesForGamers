@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Page - CodesForGamers</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+    <style>
+    .game-card {
+        border: 3px solid black;
+        border-radius: 20px;
+        padding: 20px;
+        margin: auto;
+        text-align: center;
+        max-width: 1000px;
+        background-color: #031154;
+    }
+
+    /* Add responsive styles */
+    @media (max-width: 1000px) {
+        .game-card {
+            width: 100%; /* Make card full width on smaller screens */
+        }
+    }
+
+    #content-container {
+        margin-left: 5%;
+        margin-right: 5%;
+
+    }
+    body{
+        background-color: #636f82;
+    }
+
+
+    h1 {
+        text-align: center;
+        color: white;
+    }
+    h2{
+    color: white;
+    font-size: 52px;
+    text-align: left;
+
+    }
+    .details {
+      color: white;
+      font-weight: bold;
+      text-align: left;
+      font-size: 18px;
+    }
+    .platforms {
+      color: white;
+      font-weight: bold;
+      text-align: right;
+      font-size: 24px;
+    }
+
+    h2, img {
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+
+    img.img-with-border {
+    border: 2px solid black;/* You can adjust the border width and color */
+    border-radius: 10px;
+    margin-left: 60%;
+}
+
+    #addToCartButton,
+    #buyNowButton {
+        background-color: #00bf15; /* Green background color */
+        color: #fff; /* White text color */
+        padding: 10px 20px; /* Padding for the buttons */
+        border: 2px solid black; /* Remove button border */
+        border-radius: 5px; /* Add border-radius for rounded corners */
+        cursor: pointer; /* Change cursor to pointer on hover */
+        margin-top: 10px; /* Add some top margin */
+        font-weight: bold;
+    }
+
+    /* Style for the platform dropdown */
+    #platform {
+        width: 30%; /* Set a specific width for the dropdown */
+        padding: 10px; /* Add padding to the dropdown */
+        border: 2px solid black; /* Add a border to the dropdown */
+        border-radius: 5px; /* Add border-radius for rounded corners */
+        background-color: #333333;
+        color: #fff; /* Text color for options */
+    }
+
+    /* Style for the dropdown options */
+    #platform option {
+        background-color: #333333; /* White background color for options */
+        color: #fff; /* Text color for options */
+    }
+
+    /* Style for the dropdown arrow */
+    #platform::after {
+        content: '\25BC'; /* Unicode character for a downward arrow */
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        pointer-events: none; /* Ensure the arrow does not interfere with clicking the dropdown */
+    }
+
+    /* Style for the dropdown arrow on hover */
+    #platform:hover::after {
+        color: #007bff; /* Change color on hover */
+    }
+
+    .alert-created {
+    background-color: #dc3545; /* Red background color for delete alert */
+    color: #fff; /* White text color */
+    }
+
+    /* Style for the button when alert is not created */
+    .alert-not-created {
+    background-color: #28a745; /* Green background color for create alert */
+    color: #fff; /* White text color */
+    }
+
+
+
+
+
+  </style>
+</head>
+<body>
+
+<div th:include="fragments/header.html"></div>
+
+
+<div id="content-container">
+    <br>
+    <h1>CodesForGamers</h1>
+    <br>
+    <br>
+    <div th:if="${game != null}" class="game-card">
+        <h2 th:text="${game.name}"></h2>
+        <th:block th:if="${game.imagePath != null}">
+            <!-- Use th:src to directly embed the image in the HTML -->
+            <img th:src="@{'/images/' + ${game.imagePath}}" alt="Game Image" class="img-with-border"/>
+        </th:block>
+        <th:block th:unless="${game.imagePath != null}">
+            <img th:src="@{/images/placeholder.jpg}" alt="No Image" class="img-with-border"/>
+        </th:block>
+        <p th:text="${'Description: ' + game.description}" class="details"></p>
+        <p th:text="${'Publisher: ' + game.publisher}" class="details"></p>
+        <p th:text="${'Price: €' + game.price}" class="details"></p>
+        <p class="details">
+            Categories:
+            <span th:each="category, iterStat : ${categories}">
+                <span th:text="${category.name}" ></span>
+                <span th:if="${!iterStat.last}">, </span>
+            </span>
+        </p>
+
+        <div class="d-flex justify-content-end">
+            <button th:if="${game != null and session.user != null and session.admin == null}"
+                    type="submit" form="alertForm" id="alertButton"
+                    th:class="${userHasAlert != null and userHasAlert ? 'alert-created' : 'alert-not-created'}">
+                <span th:if="${userHasAlert != null and userHasAlert}">🔔 Delete Alert</span>
+                <span th:unless="${userHasAlert != null and userHasAlert}">🔔 Create Alert</span>
+            </button>
+        </div>
+
+        <br>
+
+        <p class="platforms" th:if="${session.user != null and not #lists.isEmpty(platforms) and session.admin == null}">
+            Platforms:
+            <select id="platform" onchange="showAddToCartButton(this)">
+                <option value="" selected disabled>Choose a platform</option>
+                <option th:each="platform : ${platforms}" th:text="${platform}" th:value="${platform}"></option>
+            </select>
+
+            <!-- Button to add to cart -->
+        <form id="addToCartForm" th:action="@{|/game/addToCart/${game.id}|}" method="post">
+            <input type="hidden" id="hiddenPlatform" name="platform" th:value="${platform}" />
+            <input type="hidden" id="gameId" th:value="${game.id}" />
+            <input type="hidden" name="action" id="action" />
+            <button type="button" th:text="${'Buy now ➔ €' + game.price}" id="buyNowButton" style="display: none" onclick="buyNow()">
+
+            </button>
+            <button type="button" id="addToCartButton" style="display: none" onclick="addToCart()">
+                 Add to Cart 🛒
+            </button>
+        </form>
+        </p>
+
+        <p class="platforms" th:if="${session.user == null or session.admin != null}">
+            <em>Please log in as a client to add items to your cart.</em>
+        </p>
+
+        <p class="platforms" th:if="${session.user != null and #lists.isEmpty(platforms)}">No items available</p>
+
+
+        <!-- Add this form at the end of the body -->
+        <form th:if="${game != null and session.user != null}" id="alertForm" th:action="@{/alert/createOrDeleteAlert}" method="post">
+            <!-- Add a hidden input field for the game ID -->
+            <input type="hidden" name="gameId" th:value="${game.id}" />
+            <input type="hidden" name="deleteAlert" th:value="${userHasAlert != null and userHasAlert}" />
+        </form>
+
+        <div th:if="${videoId}">
+            <iframe width="560" height="315" th:src="'https://www.youtube.com/embed/' + ${videoId}" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!-- Add more details as needed -->
+    </div>
+    <br>
+    <br>
+</div>
+
+</body>
+<script th:inline="javascript">
+    function showAddToCartButton(selectedPlatform) {
+        var addToCartButton = document.getElementById("addToCartButton");
+        var hiddenPlatformInput = document.getElementById("hiddenPlatform");
+        var buyNowButton = document.getElementById("buyNowButton");
+        // Update the hidden input with the selected platform
+        console.log("Selected Platform:", selectedPlatform.value);
+
+
+        hiddenPlatformInput.value = selectedPlatform.value;
+
+        // Check if a platform is selected
+        if (selectedPlatform.value) {
+            addToCartButton.style.display = "block";
+            buyNowButton.style.display = "block";
+        } else {
+            addToCartButton.style.display = "none";
+            buyNowButton.style.display = "none";
+        }
+    }
+
+    function addToCart() {
+    var form = document.getElementById("addToCartForm");
+    var selectedPlatform = document.getElementById("platform").value;
+    var gameId = document.getElementById("gameId").value;
+
+        // Update the form action with the selected platform
+        form.action = "/game/addToCart/" + selectedPlatform + "/" + gameId;
+
+        document.getElementById("action").value = "addToCart";
+
+        // Submit the form
+        form.submit();
+    }
+
+     function buyNow() {
+        var form = document.getElementById("addToCartForm");
+        var selectedPlatform = document.getElementById("platform").value;
+        var gameId = document.getElementById("gameId").value;
+
+        // Update the form action with the selected platform and game id
+        form.action = "/game/addToCart/" + selectedPlatform + "/" + gameId;
+
+         document.getElementById("action").value = "buyNow";
+
+        // Submit the form
+        form.submit();
+
+
+    }
+</script>
+
+</html>

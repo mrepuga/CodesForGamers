@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Users - CodesForGamers</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #636f82;
+    }
+
+    h1{
+    color: white;
+    }
+
+    .text{
+    font-size: 1.2em;
+    color: white;
+    font-weight: bold;
+  }
+
+
+    form {
+      max-width: 400px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    @media screen and (max-width: 600px) {
+      form {
+        max-width: 100%;
+      }
+    }
+    .error-message {
+    color: red;
+    font-weight: bold;
+}
+
+  #content-container {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+   </style>
+<body>
+
+
+<div th:include="fragments/header.html"></div>
+
+
+
+<div id="content-container">
+  <br>
+  <h1>View All Users</h1>
+
+  <!-- Display user list -->
+  <table class="table">
+    <thead>
+    <tr>
+      <th class="text">ID</th>
+      <th class="text">Email</th>
+      <th class="text">Full Name</th>
+      <th class="text">Phone Number</th>
+      <th class="text">User Type</th>
+      <th class="text">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over the list of users -->
+    <tr th:each="user : ${userList}">
+      <td class="text" th:text="${user.id}"></td>
+      <td class="text" th:text="${user.email}"></td>
+      <td class="text" th:text="${user.fullName}"></td>
+      <td class="text" th:text="${user.phoneNumber}"></td>
+      <td class="text"th:text="${user.typeUser}"></td>
+      <td>
+        <!-- Button to delete the user -->
+        <form th:action="@{'/admin/deleteUser/' + ${user.id}}" method="post" onsubmit="return confirm('Are you sure you want to delete this user?')">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Add your additional content here -->
+</div>
+
+</body>
+</html>

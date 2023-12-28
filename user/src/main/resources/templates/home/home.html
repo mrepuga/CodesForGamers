@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - CodesForGamers</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style>
+    /* Add your custom styles for cards here */
+    .category-card {
+        border: 2px solid black;
+        border-radius: 20px;
+        padding: 10px;
+        margin: 10px;
+        display: inline-block;
+        vertical-align: top;
+
+    }
+
+    .category-card{
+    transform: scale(1);
+    transition: transform 0.3s ease;
+    }
+
+
+    body{
+        background-color: #636f82;
+    }
+
+    .category-card {
+    background-color: #333333;
+    }
+
+
+
+    /* Add responsive styles */
+    @media (max-width: 350px) {
+        .category-card {
+            width: 100%; /* Make cards full width on smaller screens */
+            transform: scale(1);
+        }
+    }
+
+
+    .category-card:hover {
+    transform: scale(1.1); /* Adjust the hover scale factor as needed */
+}
+
+
+    #content-container {
+        margin-left: 5%;
+        margin-right: 5%;
+        padding: 20px;
+        border-radius: 20px;
+
+    }
+
+
+    input[type="text"] {
+        width: 75%; /* Set the desired width for the input */
+        padding: 10px; /* Add padding for better visual appearance */
+        border: 2px solid black;
+        border-radius: 20px; /* Set border-radius for rounded edges */
+        margin-right: 10px; /* Add some right margin for spacing */
+        background-color: #333333; /* Set background color */
+        color: #fff; /* Set text color */
+    }
+    input[type="text"]::placeholder {
+    color: white;
+    }
+
+    button.search-button {
+        padding: 10px 15px; /* Set padding for the button */
+        width: 15%;
+        border: 2px solid black; /* Set border color */
+        border-radius: 20px; /* Set border-radius for rounded edges */
+        background-color: #333333; /* Set background color */
+        color: #fff; /* Set text color */
+        cursor: pointer;
+    }
+    h1{
+        text-align: center;
+        color: white;
+    }
+
+    h2{
+        text-align: left;
+        color: white;
+    }
+
+     nav.categories a {
+        color: white; /* Set the text color of anchor elements inside the nav to white */
+        font-size: 28px;
+    }
+    nav.categories a:hover {
+        text-decoration: none; /* Remove underline on hover */
+    }
+
+     .details {
+      color: white;
+      font-weight: bold;
+      text-align: left;
+    }
+    .description{
+    color: white;
+      font-weight: bold;
+      text-align: left;
+      font-size: 18px;
+
+    }
+
+    .img-with-border {
+    border: 2px solid black;/* You can adjust the border width and color */
+    border-radius: 10px;
+}
+
+
+.explore-link {
+    text-decoration: none;
+    color: #fff;
+    display: inline-block;
+    margin-top: 20px;
+    flex-grow: 1;
+    margin: 0 10px; /* Adjust the margin as needed */
+}
+
+.explore-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.explore-link-container {
+    background-color: #031154;
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.explore-link:hover .explore-link-container {
+    background-color: #333333;
+}
+
+.explore-text {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.emoji-icon {
+    font-size: 20px;
+}
+
+    </style>
+</head>
+<body>
+
+
+<div th:include="fragments/header.html"></div>
+
+
+<div id="content-container">
+    <br>
+    <h1>CodesForGamers</h1>
+    <br>
+    <br>
+    <form action="/search" method="get">
+        <input type="text" name="query" placeholder="Search...">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+    <br>
+    <br>
+
+    <h2>Explore</h2>
+    <br>
+    <div class="explore-container">
+
+        <!-- Explore Recommended Games button -->
+        <a th:href="@{/recommendedGames}" class="explore-link">
+            <div class="explore-link-container">
+                <span class="explore-text">Explore Recommended Games</span>
+                <span class="emoji-icon" role="img" aria-label="Right Arrow"> ➡️</span>
+            </div>
+        </a>
+
+        <!-- Search Games below 20€ button -->
+        <a th:href="@{/searchGamesBelow20}" class="explore-link">
+            <div class="explore-link-container">
+                <span class="explore-text">Search Games Below 20€</span>
+                <span class="emoji-icon" role="img" aria-label="Right Arrow"> ➡️</span>
+            </div>
+        </a>
+
+        <!-- Explore Newly Added Games button -->
+        <a th:href="@{/searchNewlyAddedGames}" class="explore-link">
+            <div class="explore-link-container">
+                <span class="explore-text">Explore Newly Added Games</span>
+                <span class="emoji-icon" role="img" aria-label="Right Arrow"> ➡️</span>
+            </div>
+        </a>
+
+    </div>
+
+
+
+
+    <br>
+    <br>
+    <nav class="categories">
+        <h2>Categories</h2>
+        <br>
+        <div th:each="category : ${categories}" class="category-card">
+            <a th:href="'/category/' + ${category.id}">
+                <h3 th:text="${category.name}" class="details"></h3>
+                <p th:text="${category.description}"  class="description"></p>
+
+
+            </a>
+        </div>
+    </nav>
+
+
+</div>
+
+
+</body>
+
+
+
+
+
+</html>

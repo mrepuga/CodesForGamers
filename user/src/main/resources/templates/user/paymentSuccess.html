@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Success - CodesForGamers</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<style>
+
+   body{
+        background-color: #636f82;
+    }
+
+
+  .reveal-container {
+        position: relative;
+        display: inline-block;
+        background-color: white; /* Set your desired background color */
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .reveal-button {
+        background-color: #333333; /* Set your desired button color */
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    .hidden-code {
+        color: transparent;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .revealed-code {
+        color: black; /* Adjust the color as needed */
+        text-shadow: none;
+        font-weight: bold;
+    }
+
+   .img-with-border {
+    border: 2px solid black;/* You can adjust the border width and color */
+    border-radius: 10px;
+}
+
+.text{
+    font-size: 1.2em;
+    color: white;
+    font-weight: bold;
+  }
+
+  h2, h4 {
+        text-align: left;
+        color: white;
+    }
+
+    .custom-blue-button {
+   background-color: #031154;
+   color: #fff;
+   font-weight: bold;
+  }
+
+</style>
+
+
+
+<body>
+
+<div th:include="fragments/header.html"></div>
+
+<div class="container mt-5">
+  <h2>Payment Success</h2>
+
+  <!-- Display Cart Items -->
+  <h4>Order Cart Items:</h4>
+  <ul>
+    <li th:each="mergedCartItem : ${mergedCartItems}">
+      <p class="text" th:text="'Game: ' + ${mergedCartItem.cartItem.gameName}"></p>
+      <p class="text" th:text="'Platform: ' + ${mergedCartItem.cartItem.platform}"></p>
+      <p class="text" th:text="'Price: €' + ${mergedCartItem.cartItem.price}"></p>
+      <!-- Add other details as needed -->
+      <br>
+      <!-- Display the photo if imagePath is not null -->
+      <th:block th:if="${mergedCartItem.gameDetails['imagePath'] != null}">
+        <!-- Use th:src to directly embed the image in the HTML -->
+        <img th:src="@{'/images/' + ${mergedCartItem.gameDetails['imagePath']} }" alt="Game Image" class="img-with-border"/>
+      </th:block>
+      <th:block th:unless="${mergedCartItem.gameDetails['imagePath'] != null}">
+        <img th:src="@{/images/placeholder.jpg}" alt="No Image" class="img-with-border"/>
+      </th:block>
+
+      <br>
+      <br>
+
+      <div class="reveal-container">
+        <button class="reveal-button" onclick="revealCode(this)">Reveal Code</button>
+        <button class="copy-button" onclick="copyToClipboard(this)" style="display: none;">
+          <i class="fas fa-copy"></i>
+        </button>
+        <!-- Set the initial value to the dummy code and actual code in Thymeleaf -->
+        <span class="hidden-code" th:text="${'Dummy Code'}" th:attr="data-actual-code=${mergedCartItem.cartItem.code}"></span>
+      </div>
+      <br>
+      <br>
+
+    </li>
+  </ul>
+
+  <!-- Display Blurred Code with Button to Unblur -->
+
+
+  <!-- Display Purchase Time -->
+  <p class="text" th:text="'Purchase Time: ' + ${time}"></p>
+
+  <!-- Add your checkout or continue shopping button -->
+  <a href="/home" class="btn custom-blue-button">Continue Shopping</a>
+</div>
+
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function revealCode(button) {
+        var container = button.parentElement;
+        var codeSpan = container.querySelector('.hidden-code');
+        var copyButton = container.querySelector('.copy-button');
+
+        // Access the dummy and actual values using data- attributes
+        var dummyCode = codeSpan.innerText;
+        var actualCode = codeSpan.getAttribute('data-actual-code');
+
+        // Check if the code is currently hidden
+        if (codeSpan.classList.contains('hidden-code')) {
+            // Set the actual code value using the actualCode variable
+            codeSpan.innerText = actualCode;
+
+            // Show the copy button
+            copyButton.style.display = 'inline-block';
+        }
+
+        // Toggle the visibility of the "hidden-code" and "revealed-code" classes
+        codeSpan.classList.toggle('hidden-code');
+        codeSpan.classList.toggle('revealed-code');
+
+        // Hide the button
+        button.style.display = 'none';
+    }
+
+    function copyToClipboard(button) {
+        var container = button.parentElement;
+        var codeSpan = container.querySelector('.revealed-code');
+
+        if (codeSpan) {
+            var codeToCopy = codeSpan.innerText;
+            navigator.clipboard.writeText(codeToCopy).then(function() {
+                alert('Code copied to clipboard!');
+            }).catch(function(err) {
+                console.error('Unable to copy to clipboard', err);
+            });
+        }
+    }
+    /*]]>*/
+</script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-P1buNtgHWNqPvAjbLwC7fUIFpfdaB/4zDEJuTbQCFxTg4XwnBG6G6IA3FjXM+F9a"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

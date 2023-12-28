@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - CodesForGamers</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <style>
+    /* Add your custom styles for cards here */
+
+
+    #content-container {
+        height: 50vh; /* Set height to 100% of viewport height */
+    }
+
+    body{
+        background-color: #636f82;
+    }
+
+    .modify-section {
+        background-color: #ffc107;
+        color: #fff;
+        padding: 20px;
+        margin: 10px;
+        border-radius: 10px;
+        border: 2px solid black;
+    }
+
+    /* Add styles for the view users section */
+    .view-users-section {
+        background-color: #28a745;
+        color: #fff;
+        padding: 20px;
+        margin: 10px;
+        border-radius: 10px;
+        border: 2px solid black;
+    }
+
+    /* Add styles for the create admin section */
+    .create-admin-section {
+        background-color: #007bff;
+        color: #fff;
+        padding: 20px;
+        margin: 10px;
+        border-radius: 10px;
+        border: 2px solid black;
+    }
+
+    .manage-inventory-section {
+        background-color: #fa6f05;
+        color: #fff;
+        padding: 20px;
+        margin: 10px;
+        border-radius: 10px;
+        border: 2px solid black;
+    }
+
+    .manage-orders-section {
+        background-color: #8e42bd;
+        color: #fff;
+        padding: 20px;
+        margin: 10px;
+        border-radius: 10px;
+        border: 2px solid black;
+    }
+
+
+    .section-link {
+        text-decoration: none !important;
+        color: inherit; /* Inherit the color from the parent */
+    }
+    </style>
+</head>
+<body>
+
+
+<div th:include="fragments/header.html"></div>
+
+<br>
+<div id="content-container" class="d-flex align-items-center justify-content-center">
+
+    <!-- Section for modifying the catalog with a different style -->
+    <a href="/admin/modifyCatalog" class="section-link">
+      <section class="modify-section">
+        <h1>CATALOG</h1>
+        <!-- Add your content for modifying the catalog here -->
+      </section>
+    </a>
+
+    <!-- Section for viewing all users' data with a different style -->
+    <a href="/admin/viewUsers" class="section-link">
+      <section class="view-users-section">
+        <h1>USERS</h1>
+        <!-- Add your content for viewing all users' data here -->
+      </section>
+    </a>
+
+    <!-- Section for creating admins with a different style -->
+    <a href="/admin/createAdmin" class="section-link">
+      <section class="create-admin-section">
+        <h1>CREATE ADMIN</h1>
+        <!-- Add your content for creating admins here -->
+      </section>
+    </a>
+
+  <a href="/admin/manageInventory" class="section-link">
+    <section class="manage-inventory-section">
+      <h1>INVENTORY</h1>
+      <!-- Add your content for creating admins here -->
+    </section>
+  </a>
+
+    <a href="/admin/manageOrders" class="section-link">
+        <section class="manage-orders-section">
+            <h1>ORDERS/SALES</h1>
+            <!-- Add your content for creating admins here -->
+        </section>
+    </a>
+
+
+  </div>
+
+
+
+
+
+
+</body>
+</html>

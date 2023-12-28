@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Alerts - CodesForGamers</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+
+<style>
+
+   .img-with-border {
+    border: 2px solid black;/* You can adjust the border width and color */
+    border-radius: 10px;
+}
+
+  .text{
+    font-size: 1.2em;
+    color: white;
+    font-weight: bold;
+  }
+
+  body{
+        background-color: #636f82;
+  }
+
+  h2, h3, h4{
+    color: white;
+    }
+
+ .alertBody{
+    background-color: #031154;
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+</style>
+
+
+<body>
+
+<div th:include="fragments/header.html"></div>
+
+<div class="container mt-5">
+  <h2>My Alerts</h2>
+  <br>
+
+  <div th:if="${#lists.isEmpty(alerts)}">
+    <p class="text">You haven't created any alerts. Come back here later to manage them.</p>
+  </div>
+
+  <div th:each="alert, index : ${alerts}" th:if="${not #lists.isEmpty(alerts)}">
+    <h3>Alert ID: #<span th:text="${alert.id}"></span></h3>
+       <!-- Access the corresponding game details from the list -->
+    <div class="alertBody" th:with="gameDetail=${gameDetailsList[index.index]}">
+      <h4>Game Details:</h4>
+      <p class="text">Name: <span th:text="${gameDetail['name']}"></span></p>
+      <p class="text">Description: <span th:text="${gameDetail['description']}"></span></p>
+
+      <th:block th:if="${gameDetail['imagePath'] != null}">
+        <!-- Use th:src to directly embed the image in the HTML -->
+        <img th:src="@{'/images/' + ${gameDetail['imagePath']} }" alt="Game Image" class="img-with-border"/>
+      </th:block>
+      <th:block th:unless="${gameDetail['imagePath'] != null}">
+        <img th:src="@{/images/placeholder.jpg}" alt="No Image" class="img-with-border"/>
+      </th:block>
+      <!-- Add other game details as needed -->
+      <br>
+      <br>
+
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"
+              th:attr="data-action='deleteAlert', data-object-id=${alert.id}">
+        Delete Alert
+      </button>
+
+      <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmModalLabel">Confirmation</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p th:text="${'Are you sure you want to delete this alert?'}"></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <!-- Adjust the link to perform the delete action -->
+              <form th:action="@{'/alert/delete/' + ${alert.id}}" method="post" id="deleteForm">
+                <!-- Add a hidden field to set the HTTP method to DELETE -->
+                <input type="hidden" name="_method" value="DELETE" th:method="post" />
+                <button type="submit" class="btn btn-danger">Confirm</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <hr/>
+    <br/>
+    <br/>
+
+  </div>
+
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-P1buNtgHWNqPvAjbLwC7fUIFpfdaB/4zDEJuTbQCFxTg4XwnBG6G6IA3FjXM+F9a"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
