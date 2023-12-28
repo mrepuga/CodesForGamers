@@ -13,7 +13,7 @@ Antes de poner en marcha el proyecto de CodesForGamers se han de obtener los pro
 
 ## Credenciales APIs Externas
 
-Una vez tenemos todos los softwares necesarios para ejecutar la aplicacion, tendremos que configurar las claves de las APIs externas siguiente:
+Una vez tenemos todos los softwares necesarios para ejecutar la aplicacion, tendremos que configurar las claves de las APIs externas siguientes:
 
 
 ### user API:
