@@ -6,10 +6,44 @@ CodesForGamers es una aplicación Web que hace de tienda para códigos de juegos
 
 Antes de poner en marcha el proyecto de CodesForGamers se han de obtener los programas siguientes:
 
-- [Java JDK 17 o superior](https://www.oracle.com/es/java/technologies/downloads/#jdk17-windows)
+- [Java JDK 17](https://www.oracle.com/es/java/technologies/downloads/#jdk17-windows)
 - [Maven](https://maven.apache.org/download.cgi)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
+
+## Credenciales APIs Externas
+
+Una vez tenemos todos los softwares necesarios para ejecutar la aplicacion, tendremos que configurar las claves de las APIs externas siguiente:
+
+
+### user API:
+En el mismo [application.properties](user/src/main/resources/application.properties) se estipulan las keys para las distintas APIs externas
+
+- **Youtube data Api v3:**
+  - **youtube.api.key**:
+    
+  
+Como obtener la clave de Youtbe Data Api v3 en el siguiente tutorial: https://www.youtube.com/watch?v=qWUobN0xtcE
+
+
+- **Paypal:**
+  - **paypal.client.id**
+  - **paypal.client.secret**
+  - **paypal.client.mode**
+
+Como obtener las claves de PayPal en el siguiente tutorial:
+https://www.upwork.com/resources/paypal-client-id-secret-key
+
+### notificationApp API:
+
+En el archivo de configuración [application.properties](notificationApp/src/main/resources/application.properties) se estipula las credenciales usadas para la notificion  mail:
+
+- Gmail:
+  - **spring.mail.username**
+  - **spring.mail.password**
+
+Como obtener la clave de Gmail en el siguiente tutorial:
+https://www.sysinfotools.com/how-to/generate-app-password-in-gmail.html
 
 
 # Despliegue
@@ -96,28 +130,3 @@ De forma predeterminada, la apliacación tiene información ya agregada:
     - **web.admin.email**
     - **web.admin.password**
 
-## Credenciales APIs Externas
-
-### user API:
-En el mismo [application.properties](user/src/main/resources/application.properties) se estipulan las keys para las distintas APIs externas
-
-- **Youtube:**
-  - **youtube.api.key**
-  
-
-- **Paypal:** 
-  - **paypal.client.id**
-  - **paypal.client.secret**
-  - **paypal.client.mode**
-
-### notificationApp API:
-
-En el archivo de configuración [application.properties](notificationApp/src/main/resources/application.properties) se estipula las credenciales usadas para la notificion  mail:
-
-- Gmail: 
-  - **spring.mail.host**
-  - **spring.mail.port**
-  - **spring.mail.username**
-  - **spring.mail.password**
-  - **spring.mail.properties.mail.smtp.auth**
-  - **spring.mail.properties.mail.smtp.starttls.enable**
