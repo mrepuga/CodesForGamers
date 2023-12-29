@@ -17,7 +17,7 @@ Una vez tenemos todos los softwares necesarios para ejecutar la aplicacion, tend
 
 
 ### user API:
-En el mismo [application.properties](user/src/main/resources/application.properties) se estipulan las keys para las distintas APIs externas
+En el mismo [application.properties](user/src/main/resources/application.properties) se deben configurar las keys para las distintas APIs externas:
 
 - **Youtube data Api v3:**
   - **youtube.api.key**:
@@ -36,7 +36,7 @@ https://www.upwork.com/resources/paypal-client-id-secret-key
 
 ### notificationApp API:
 
-En el archivo de configuración [application.properties](notificationApp/src/main/resources/application.properties) se estipula las credenciales usadas para la notificion  mail:
+En el archivo de configuración [application.properties](notificationApp/src/main/resources/application.properties) se deben configurar las credenciales para la notificion mail:
 
 - Gmail:
   - **spring.mail.username**
@@ -112,7 +112,7 @@ start java -jar notificationApp/target/notificationApp-SNAPSHOT.jar
 
 Una vez levantado los contenedores correctamente como asi los archivos .jar, la aplicacion se encontrará en funcionamiento.
 
-Para acceder a la web, vaya **https://localhost/home** donde encontrar la apliación 
+Para acceder a la web, vaya **https://localhost/home** donde se encuentra la apliación 
 en marcha.
 
 También puede acceder a **http://localhost:18081/swagger-ui/index.html** para acceder al Swagger de la API de **gamecatalog** donde encontrará todos los métodos implementados de esta API
@@ -120,13 +120,12 @@ También puede acceder a **http://localhost:18081/swagger-ui/index.html** para a
 
 # Configuración
 
-De forma predeterminada, la apliacación tiene información ya agregada:
+De forma predeterminada, la aplicación tiene información ya agregada:
 
 - 20 Juegos y 10 Categorías.
-
+  
 
 - Un usuario registrado para las funciones de Administrador:
   - Acceda a [application.properties](user/src/main/resources/application.properties) para obtener la credenciales: 
     - **web.admin.email**
     - **web.admin.password**
-
